@@ -79,8 +79,8 @@ int main(void) {
   initialise_crossword(crossword);
   insert_word(crossword, "cat", 1, 1, HORIZONAL);
   insert_word(crossword, "xavier", 1, 1, VERTICAL);
-//   insert_word(crossword, "xavier", 3, 2);
-//   insert_word(crossword, "xavier", 3, -1);
+  //   insert_word(crossword, "xavier", 3, 2);
+  //   insert_word(crossword, "xavier", 3, -1);
   print_crossword(crossword);
 
   return 0;
