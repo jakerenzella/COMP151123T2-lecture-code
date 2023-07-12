@@ -28,9 +28,29 @@ struct game_data initialise_game(void) {
 
   game.player_pokedex.number_found = 0;
   game.player_pokedex.found = NULL;
+
+  return game;
 }
 
-void encounter_wild_pokemon(struct game_data game) {
+void add_to_pokedex(struct game_data *game, struct pokemon wild_pokemon) {
+  int num = ++game->player_pokedex.number_found;
+  game->player_pokedex.found =
+      realloc(game->player_pokedex.found, num * sizeof(struct pokemon));
+  game->player_pokedex.found[num - 1] = wild_pokemon;
+}
+
+void print_pokedex(struct pokedex *pokedex) {
+    if(pokedex->number_found == 0) {
+        printf("Oh no... you are yet to start your adventure...\n");
+    }
+
+  for (int i = 0; i < pokedex->number_found; i++) {
+    fputs(pokedex->found[i].name, stdout); //remember that [i] dereferences
+    printf(" | ");
+  }
+}
+
+void encounter_wild_pokemon(struct game_data *game) {
   struct pokemon wild_pokemon = {.id = 0,
                                  .name = "Bulbasaur",
                                  .hp = 50,
@@ -39,8 +59,8 @@ void encounter_wild_pokemon(struct game_data game) {
 
   // check that it exists in the pokedex
   int already_encountered = 0;
-  for (int i = 0; i < game.player_pokedex.number_found; i++) {
-    if (game.player_pokedex.found[i].id == wild_pokemon.id) {
+  for (int i = 0; i < game->player_pokedex.number_found; i++) {
+    if (game->player_pokedex.found[i].id == wild_pokemon.id) {
       already_encountered = 1;
     }
   }
@@ -58,4 +78,14 @@ void encounter_wild_pokemon(struct game_data game) {
   // give player a chance to catch it
 }
 
-int main(void) { return 0; }
+int main(void) {
+    
+    struct game_data game = initialise_game();
+    print_pokedex(&game.player_pokedex);
+
+    encounter_wild_pokemon(&game);
+
+    print_pokedex(&game.player_pokedex);
+
+    
+     return 0; }
