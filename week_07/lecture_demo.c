@@ -40,12 +40,12 @@ void add_to_pokedex(struct game_data *game, struct pokemon wild_pokemon) {
 }
 
 void print_pokedex(struct pokedex *pokedex) {
-    if(pokedex->number_found == 0) {
-        printf("Oh no... you are yet to start your adventure...\n");
-    }
+  if (pokedex->number_found == 0) {
+    printf("Oh no... you are yet to start your adventure...\n");
+  }
 
   for (int i = 0; i < pokedex->number_found; i++) {
-    fputs(pokedex->found[i].name, stdout); //remember that [i] dereferences
+    fputs(pokedex->found[i].name, stdout);  // remember that [i] dereferences
     printf(" | ");
   }
 }
@@ -79,13 +79,12 @@ void encounter_wild_pokemon(struct game_data *game) {
 }
 
 int main(void) {
-    
-    struct game_data game = initialise_game();
-    print_pokedex(&game.player_pokedex);
+  struct game_data game = initialise_game();
+  print_pokedex(&game.player_pokedex);
 
-    encounter_wild_pokemon(&game);
+  encounter_wild_pokemon(&game);
 
-    print_pokedex(&game.player_pokedex);
+  print_pokedex(&game.player_pokedex);
 
-    
-     return 0; }
+  return 0;
+}
