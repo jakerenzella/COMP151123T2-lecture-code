@@ -11,6 +11,10 @@ void print_list(struct node *head);
 struct node *insert_at_tail(int data, struct node *head);
 struct node *insert_at_index(struct node *head, int index, int data);
 struct node *remove_tail(struct node *head);
+struct node *delete_at_index(struct node *head, int index);
+
+// for you at home
+int len_of_ll(struct node *head);
 
 int main(void) {
   struct node *head = create_node(7, NULL);
@@ -26,12 +30,21 @@ int main(void) {
   print_list(head);
   // expected: 11 -> 8 -> 42 -> 7 -> 6
 
-  remove_tail(head);
+  head = remove_tail(head);
   print_list(head);
   // expected: 11 -> 8 -> 42 -> 7
 
-  remove_tail(head);
+  head = remove_tail(head);
+  print_list(head);
   // expected: 11 -> 8 -> 42
+
+  head = delete_at_index(head, 0);
+  print_list(head);
+  // expected: 8 -> 42
+  
+  head = delete_at_index(head, 1);
+  print_list(head);
+  // expected: 8
 
   return 0;
 }
@@ -40,9 +53,39 @@ int main(void) {
 // element is removed
 struct node *remove_tail_tim_special(struct node *head) {
   struct node *curr = head;
-  for (; curr->next->next != NULL; curr = curr->next);
+  for (; curr->next->next != NULL; curr = curr->next)
+    ;
   curr->next = NULL;
   free(curr->next);
+  return head;
+}
+
+struct node *delete_at_index(struct node *head, int index) {
+  struct node *curr = head;
+  struct node *previous = NULL;
+
+  int i = 0;
+
+  while (curr != NULL) {
+    if (index == i) {
+      if (previous == NULL) {
+        // we are at the first element (0)
+        struct node *result = curr->next;
+        free(curr);
+        return result;
+      }
+      // we can delete curr node
+      // and connect previous to curr's next.
+      previous->next = curr->next;
+      free(curr);
+      return head;
+    }
+
+    previous = curr;
+    curr = curr->next;
+    i++;
+  }
+  return head;
 }
 
 struct node *remove_tail(struct node *head) {
